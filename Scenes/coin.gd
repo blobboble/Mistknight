@@ -8,7 +8,7 @@ func _ready():
 	player.coin_push.connect(func():
 		var player_direction = (self.position - player.global_position).normalized()
 		linear_velocity=player_direction*speed
-		
+		print(linear_velocity)
 	)
 	player.coin_pull.connect(func():
 		var player_direction = (self.position - player.global_position).normalized()
