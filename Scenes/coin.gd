@@ -1,18 +1,17 @@
 extends RigidBody2D
-@export var weight=500
+@export var weight=5000
 
-var speed = PlayerVariables.weight/weight
+var speed = 100   #PlayerVariables.weight/weight
 var rotation_speed = 20
 @onready var player = get_node("../Player")
 func _ready():
 	player.coin_push.connect(func():
-		var player_direction = (self.position - player.global_position).normalized()
-		linear_velocity=player_direction*speed
-		print(linear_velocity)
+			var player_direction = (self.position - player.global_position).normalized()
+			apply_central_force(player_direction*speed)
 	)
 	player.coin_pull.connect(func():
-		var player_direction = (self.position - player.global_position).normalized()
-		linear_velocity=-player_direction*speed
+			var player_direction = (self.position - player.global_position).normalized()
+			apply_central_force(-player_direction*speed)
 		
 	)
 func _physics_process(delta):

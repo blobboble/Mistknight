@@ -23,7 +23,7 @@ size = Vector2(4, 8)
 
 [node name="Coin" type="RigidBody2D"]
 mass = 0.01
-gravity_scale = 0.0
+linear_damp = 6.06
 script = ExtResource("1_gfau4")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
