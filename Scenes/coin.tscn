@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://bct1mlqci34a3"]
+[gd_scene load_steps=8 format=3 uid="uid://bct1mlqci34a3"]
 
 [ext_resource type="Script" path="res://Scenes/coin.gd" id="1_gfau4"]
 [ext_resource type="Texture2D" uid="uid://baob6lb6lr6k5" path="res://Assets/brackeys_platformer_assets/sprites/coin_spin.png" id="2_8vj8e"]
+[ext_resource type="Script" path="res://Scenes/Area2D.gd" id="3_y184r"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bfmvj"]
 atlas = ExtResource("2_8vj8e")
@@ -21,8 +22,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_56uv5"]
 size = Vector2(4, 8)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i5tin"]
+size = Vector2(6, 10)
+
 [node name="Coin" type="RigidBody2D"]
+collision_layer = 2
 mass = 0.01
+max_contacts_reported = 2
+contact_monitor = true
 linear_damp = 6.06
 script = ExtResource("1_gfau4")
 
@@ -34,3 +41,12 @@ frame_progress = 0.866025
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_56uv5")
+
+[node name="Area2D" type="Area2D" parent="."]
+script = ExtResource("3_y184r")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_i5tin")
+
+[connection signal="body_shape_entered" from="Area2D" to="." method="_on_body_shape_entered"]
+[connection signal="body_shape_exited" from="Area2D" to="." method="_on_body_shape_exited"]

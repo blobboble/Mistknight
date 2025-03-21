@@ -9,11 +9,24 @@ signal coin_push
 signal coin_pull
 
 
+
+
+		
+func _on_push_collide(c):
+	var coin_direction = (self.position - c.global_position).normalized()
+	velocity+=(coin_direction*gravity*0.3)
+	print("coin collide detected")
+func _on_pull_collide(c):
+	var coin_direction = (self.position - c.global_position).normalized()
+	velocity+=(-coin_direction*gravity*0.3)
+	print("coin collide detected")
+
 func _physics_process(delta):
 	velocity.y+=gravity*delta
 	horizontal_movement()
 	move_and_slide()
 	player_animations()
+	coin_interactions()
 
 func horizontal_movement():
 	var horizontal_input = Input.get_action_strength("ui_right")-Input.get_action_strength("ui_left")
@@ -29,12 +42,13 @@ func player_animations():
 		$AnimatedSprite2D.flip_h = false
 		$AnimatedSprite2D.play("run")
 		$CoinBag.position.x =5
+	if !Input.is_anything_pressed():
+		$AnimatedSprite2D.play("idle")
+func coin_interactions():
 	if Input.is_action_pressed("ui_push"):
 		coin_push.emit()
 	if Input.is_action_pressed("ui_pull"):
 		coin_pull.emit()
-	if !Input.is_anything_pressed():
-		$AnimatedSprite2D.play("idle")
 
 func _input(event):
 	if event.is_action_pressed("ui_coin"):
@@ -45,6 +59,12 @@ func _input(event):
 func coin_throw():
 	var c=coin.instantiate()
 	owner.add_child(c)
+	c.push_collide.connect(func():
+		_on_push_collide(c)
+	)
+	c.pull_collide.connect(func():
+		_on_pull_collide(c)
+	)
 	c.transform=$CoinBag.global_transform
 	
 	
