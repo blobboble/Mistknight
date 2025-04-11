@@ -15,7 +15,7 @@ func _ready():
 		apply_central_force(player_direction*speed)
 		if (colliding == true):
 			push_collide.emit()
-			print("signal sent")
+			#print("signal sent")
 		
 	)
 	player.coin_pull.connect(func():
@@ -33,10 +33,10 @@ func _physics_process(delta):
 func _on_body_shape_entered(body_rid, body, body_shape_index, local_shape_index):
 	if body is TileMap:
 		colliding = true
-		print(colliding)
+		#print(colliding)
 
 
 func _on_body_shape_exited(body_rid, body, body_shape_index, local_shape_index):
 	if body is TileMap:
 		colliding = false
-		print(colliding)
+		#print(colliding)

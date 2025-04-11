@@ -14,11 +14,12 @@ signal coin_pull
 		
 func _on_push_collide(c):
 	var coin_direction = (self.position - c.global_position).normalized()
-	velocity+=(coin_direction*gravity*0.3)
+	velocity+=(coin_direction*speed*0.5)
+	print(coin_direction*speed*0.5)
 	print("coin collide detected")
 func _on_pull_collide(c):
 	var coin_direction = (self.position - c.global_position).normalized()
-	velocity+=(-coin_direction*gravity*0.3)
+	velocity=(-coin_direction*speed*0.5)
 	print("coin collide detected")
 
 func _physics_process(delta):
